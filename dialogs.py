@@ -80,7 +80,7 @@ class download_Lotto_Prize_Value(QDialog):
         first_num = self.lineedit1.text()
         last_num = self.lineedit2.text()
         if first_num and last_num:
-            if first_num <= last_num:
+            if int(first_num) <= int(last_num):
                 first_num = int(first_num)
                 last_num = int(last_num)
             else:

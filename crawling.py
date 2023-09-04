@@ -23,8 +23,6 @@ def find_prize_number(first_num, last_num):
             target_class = ['winning_number', 'bonus_number']
             elements_with_class = soup.find_all(class_=target_class)
             winning_numbers = elements_with_class[0].text.strip().split(' ')
-            print(winning_numbers)
-            print(int(elements_with_class[1].text.strip()))
 
             index.append(i)
             winning_number1.append(int(winning_numbers[0]))
@@ -34,7 +32,7 @@ def find_prize_number(first_num, last_num):
             winning_number5.append(int(winning_numbers[4]))
             winning_number6.append(int(winning_numbers[5]))
             bonus_number.append(int(elements_with_class[1].text.strip()))
-            time.sleep(0.1)
+            time.sleep(0.5)
 
         data = {
             '회차 정보': index,
