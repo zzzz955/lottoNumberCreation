@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, \
     QHBoxLayout, QPushButton, QLineEdit, QGridLayout, QMessageBox
 from PyQt5.Qt import QIntValidator
 from qt_material import apply_stylesheet
-from dialog import *
+from dialogs import *
 
 
 class MainWindow(QMainWindow):
@@ -60,7 +60,7 @@ class MainWindow(QMainWindow):
         mainfunc.web_view(index)
 
     def show_dialog(self):
-        dialog = download_Lotto_Prize_Value(self)
+        dialog = download_Lotto_Prize_Value()
         dialog.show()
 
     def close_app(self):
