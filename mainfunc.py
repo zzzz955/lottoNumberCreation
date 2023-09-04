@@ -21,10 +21,12 @@ def fending_json(file_path, first_num, last_num):
 
 
 def fending_excel(file_path, first_num, last_num):
-    data = crawling.find_prize_number(first_num, last_num)
-    to_excel_csv.download_excel(file_path, data)
-    open_file(file_path)
-
+    try:
+        data = crawling.find_prize_number(first_num, last_num)
+        to_excel_csv.download_excel(file_path, data)
+        open_file(file_path)
+    except Exception as e:
+        print(e)
 
 def fending_csv(file_path, first_num, last_num):
     data = crawling.find_prize_number(first_num, last_num)
@@ -37,3 +39,4 @@ def open_file(file_path):
                                      QMessageBox.Ok | QMessageBox.No, QMessageBox.Ok)
     if result == QMessageBox.Ok:
         os.startfile(file_path)
+
