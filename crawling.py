@@ -38,7 +38,7 @@ def find_prize_number(first_num, last_num):
             '당첨 번호4': winning_number4,
             '당첨 번호5': winning_number5,
             '당첨 번호6': winning_number6,
-            'bonus_number': bonus_number
+            '보너스 번호': bonus_number
         }
     return data
 
