@@ -89,16 +89,21 @@ class download_Lotto_Prize_Value(QDialog):
         else:
             QMessageBox.warning(self, '경고', '회차 정보 값을 입력해 주세요.')
             return
-        file_path, _ = QFileDialog.getSaveFileName(self, '저장 경로 지정', '', '*.xlsx')
-        if file_path:
-            if form == 'json':
+
+        if form == 'json':
+            file_path, _ = QFileDialog.getSaveFileName(self, '저장 경로 지정', '', '*.json')
+            if file_path:
                 self.main_window.fending_json(file_path, first_num, last_num)
-            elif form == 'excel':
+        elif form == 'excel':
+            file_path, _ = QFileDialog.getSaveFileName(self, '저장 경로 지정', '', '*.xlsx')
+            if file_path:
                 self.main_window.fending_excel(file_path, first_num, last_num)
-            elif form == 'csv':
+        elif form == 'csv':
+            file_path, _ = QFileDialog.getSaveFileName(self, '저장 경로 지정', '', '*.csv')
+            if file_path:
                 self.main_window.fending_csv(file_path, first_num, last_num)
-            else:
-                return
+        else:
+            return
 
     def close_dialog(self):
         self.close()
