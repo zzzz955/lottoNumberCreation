@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QDialog, QVBoxLayout, QPushButton, QLineEdit, QHBoxL
 from PyQt5.QtCore import Qt
 from PyQt5.Qt import QIntValidator
 import random_func as ran
+import mainfunc
 from label_ui import CircleLabel
 
 
@@ -36,10 +37,9 @@ class lotto_Result(QDialog):
 
 
 class download_Lotto_Prize_Value(QDialog):
-    def __init__(self, main_window):
+    def __init__(self):
         super().__init__()
         self.setWindowTitle('회차별 당첨 번호 정보')
-        self.main_window = main_window
 
         self.layout = QVBoxLayout()
         layout1 = QHBoxLayout()
@@ -93,17 +93,18 @@ class download_Lotto_Prize_Value(QDialog):
         if form == 'json':
             file_path, _ = QFileDialog.getSaveFileName(self, '저장 경로 지정', '', '*.json')
             if file_path:
-                self.main_window.fending_json(file_path, first_num, last_num)
+                mainfunc.fending_json(file_path, first_num, last_num)
         elif form == 'excel':
             file_path, _ = QFileDialog.getSaveFileName(self, '저장 경로 지정', '', '*.xlsx')
             if file_path:
-                self.main_window.fending_excel(file_path, first_num, last_num)
+                mainfunc.fending_excel(file_path, first_num, last_num)
         elif form == 'csv':
             file_path, _ = QFileDialog.getSaveFileName(self, '저장 경로 지정', '', '*.csv')
             if file_path:
-                self.main_window.fending_csv(file_path, first_num, last_num)
+                mainfunc.fending_csv(file_path, first_num, last_num)
         else:
             return
 
     def close_dialog(self):
         self.close()
+
