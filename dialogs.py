@@ -92,35 +92,38 @@ class download_Lotto_Prize_Value(QDialog):
         self.lineedit3.setValidator(double_validator)
 
     def con_download_files(self, form):
-        first_num = self.lineedit1.text()
-        last_num = self.lineedit2.text()
-        cool_time = self.lineedit3.text()
-        if first_num and last_num and cool_time:
-            if int(first_num) <= int(last_num) and cool_time > 0:
-                first_num = int(first_num)
-                last_num = int(last_num)
-                cool_time = int(cool_time)
+        try:
+            first_num = self.lineedit1.text()
+            last_num = self.lineedit2.text()
+            cool_time = self.lineedit3.text()
+            if first_num and last_num and cool_time:
+                if int(first_num) <= int(last_num) and int(float(cool_time) * 10) > 0:
+                    first_num = int(first_num)
+                    last_num = int(last_num)
+                    cool_time = float(cool_time)
+                else:
+                    QMessageBox.warning(self, '경고', '입력 값을 다시 확인해 주세요.')
+                    return
             else:
-                QMessageBox.warning(self, '경고', '입력 값을 다시 확인해 주세요.')
+                QMessageBox.warning(self, '경고', '회차 정보 값을 입력해 주세요.')
                 return
-        else:
-            QMessageBox.warning(self, '경고', '회차 정보 값을 입력해 주세요.')
-            return
 
-        if form == 'json':
-            file_path, _ = QFileDialog.getSaveFileName(self, '저장 경로 지정', '', '*.json')
-            if file_path:
-                mainfunc.fending_json(file_path, first_num, last_num, cool_time)
-        elif form == 'excel':
-            file_path, _ = QFileDialog.getSaveFileName(self, '저장 경로 지정', '', '*.xlsx')
-            if file_path:
-                mainfunc.fending_excel(file_path, first_num, last_num, cool_time)
-        elif form == 'csv':
-            file_path, _ = QFileDialog.getSaveFileName(self, '저장 경로 지정', '', '*.csv')
-            if file_path:
-                mainfunc.fending_csv(file_path, first_num, last_num, cool_time)
-        else:
-            return
+            if form == 'json':
+                file_path, _ = QFileDialog.getSaveFileName(self, '저장 경로 지정', '', '*.json')
+                if file_path:
+                    mainfunc.fending_json(file_path, first_num, last_num, cool_time)
+            elif form == 'excel':
+                file_path, _ = QFileDialog.getSaveFileName(self, '저장 경로 지정', '', '*.xlsx')
+                if file_path:
+                    mainfunc.fending_excel(file_path, first_num, last_num, cool_time)
+            elif form == 'csv':
+                file_path, _ = QFileDialog.getSaveFileName(self, '저장 경로 지정', '', '*.csv')
+                if file_path:
+                    mainfunc.fending_csv(file_path, first_num, last_num, cool_time)
+            else:
+                return
+        except Exception as e:
+            print(e)
 
     def close_dialog(self):
         self.close()
