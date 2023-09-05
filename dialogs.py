@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QDialog, QVBoxLayout, QPushButton, QLineEdit, QHBoxLayout, \
     QGridLayout, QLabel, QMessageBox, QFileDialog
 from PyQt5.QtCore import Qt
-from PyQt5.Qt import QIntValidator
+from PyQt5.Qt import QIntValidator, QDoubleValidator
 import random_func as ran
 import mainfunc
 from label_ui import CircleLabel
@@ -44,10 +44,14 @@ class download_Lotto_Prize_Value(QDialog):
         self.layout = QVBoxLayout()
         layout1 = QHBoxLayout()
         layout2 = QHBoxLayout()
+        layout3 = QHBoxLayout()
         label1 = QLabel('<b>회차 정보 : </b>')
         self.lineedit1 = QLineEdit()
         label2 = QLabel('<b>~</b>')
         self.lineedit2 = QLineEdit()
+        label3 = QLabel('<b>회차간 추출 간격 : </b>')
+        self.lineedit3 = QLineEdit()
+        label4 = QLabel('<b> * 회차간 추출 간격 × 추출 횟수 만큼의 시간이 소요됩니다. </b>')
         self.download_json_btn = QPushButton('json 파일 다운로드')
         self.download_excel_btn = QPushButton('excel 파일 다운로드')
         self.download_csv_btn = QPushButton('csv 파일 다운로드')
@@ -60,9 +64,14 @@ class download_Lotto_Prize_Value(QDialog):
         layout1.addWidget(self.lineedit2)
 
         self.layout.addLayout(layout2)
-        layout2.addWidget(self.download_json_btn)
-        layout2.addWidget(self.download_excel_btn)
-        layout2.addWidget(self.download_csv_btn)
+        layout2.addWidget(label3)
+        layout2.addWidget(self.lineedit3)
+        layout2.addWidget(label4)
+
+        self.layout.addLayout(layout3)
+        layout3.addWidget(self.download_json_btn)
+        layout3.addWidget(self.download_excel_btn)
+        layout3.addWidget(self.download_csv_btn)
 
         self.layout.addWidget(self.close_button)
         self.setLayout(self.layout)
@@ -75,16 +84,22 @@ class download_Lotto_Prize_Value(QDialog):
 
         self.lineedit1.setValidator(QIntValidator())
         self.lineedit2.setValidator(QIntValidator())
+        double_validator = QDoubleValidator()
+        double_validator.setNotation(QDoubleValidator.StandardNotation)  # 표준 표기법 사용
+        double_validator.setDecimals(1)
+        self.lineedit3.setValidator(double_validator)
 
     def con_download_files(self, form):
         first_num = self.lineedit1.text()
         last_num = self.lineedit2.text()
-        if first_num and last_num:
-            if int(first_num) <= int(last_num):
+        cool_time = self.lineedit3.text()
+        if first_num and last_num and cool_time:
+            if int(first_num) <= int(last_num) and cool_time > 0:
                 first_num = int(first_num)
                 last_num = int(last_num)
+                cool_time = int(cool_time)
             else:
-                QMessageBox.warning(self, '경고', '회차 정보 입력 값을 다시 확인해 주세요. 앞의 값이 더 작아야 합니다.')
+                QMessageBox.warning(self, '경고', '입력 값을 다시 확인해 주세요.')
                 return
         else:
             QMessageBox.warning(self, '경고', '회차 정보 값을 입력해 주세요.')
@@ -93,15 +108,15 @@ class download_Lotto_Prize_Value(QDialog):
         if form == 'json':
             file_path, _ = QFileDialog.getSaveFileName(self, '저장 경로 지정', '', '*.json')
             if file_path:
-                mainfunc.fending_json(file_path, first_num, last_num)
+                mainfunc.fending_json(file_path, first_num, last_num, cool_time)
         elif form == 'excel':
             file_path, _ = QFileDialog.getSaveFileName(self, '저장 경로 지정', '', '*.xlsx')
             if file_path:
-                mainfunc.fending_excel(file_path, first_num, last_num)
+                mainfunc.fending_excel(file_path, first_num, last_num, cool_time)
         elif form == 'csv':
             file_path, _ = QFileDialog.getSaveFileName(self, '저장 경로 지정', '', '*.csv')
             if file_path:
-                mainfunc.fending_csv(file_path, first_num, last_num)
+                mainfunc.fending_csv(file_path, first_num, last_num, cool_time)
         else:
             return
 

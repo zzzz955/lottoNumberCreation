@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 import time
 
 
-def find_prize_number(first_num, last_num):
+def find_prize_number(first_num, last_num, cool_time):
     index = []
     winning_number1 = []
     winning_number2 = []
@@ -32,7 +32,7 @@ def find_prize_number(first_num, last_num):
             winning_number5.append(int(winning_numbers[4]))
             winning_number6.append(int(winning_numbers[5]))
             bonus_number.append(int(elements_with_class[1].text.strip()))
-            time.sleep(0.5)
+            time.sleep(cool_time)
 
         data = {
             '회차 정보': index,
