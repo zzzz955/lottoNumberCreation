@@ -8,7 +8,7 @@ from label_ui import CircleLabel
 
 
 class lotto_Result(QDialog):
-    def __init__(self, main_window, times):
+    def __init__(self, times, appearance_nums):
         super().__init__()
         self.setWindowTitle('로또 번호 추첨')
         self.layout = QVBoxLayout()
@@ -17,14 +17,18 @@ class lotto_Result(QDialog):
         self.setLayout(self.layout)
 
         # 시그널 추가
-        self.close_button.clicked.connect(self.close_dialog)
-        self.show_result(times)
+        self.close_button.clicked.connect(self.close)
+        self.show_result(times, appearance_nums)
 
-    def show_result(self, times):
+    def show_result(self, times, appearance_nums):
         result_layout = QGridLayout()
         self.layout.addLayout(result_layout)
+
         for i in range(times):
-            result = ran.draw_lotto()
+            if appearance_nums:
+                result = ran.draw_lotto_fixed_range(appearance_nums)
+            else:
+                result = ran.draw_lotto()
             result_layout.addWidget(QLabel(f'<b>{i+1}회 추첨 결과 : </b>'), i, 0)
             for j in range(6):
                 label = CircleLabel(f'{result[j]}')
@@ -32,8 +36,6 @@ class lotto_Result(QDialog):
                 label.setFixedSize(50, 50)
                 result_layout.addWidget(label, i, j+1)
 
-    def close_dialog(self):
-        self.close()
 
 
 class download_Lotto_Prize_Value(QDialog):
@@ -122,4 +124,44 @@ class download_Lotto_Prize_Value(QDialog):
 
     def close_dialog(self):
         self.close()
+
+
+class only_Want_Draw(QDialog):
+    def __init__(self, main_window):
+        super().__init__()
+        self.setWindowTitle('추첨 번호 선택')
+        self.layout = QVBoxLayout()
+        self.accept_button = QPushButton('적용')
+        self.reject_button = QPushButton('종료')
+        self.main_window = main_window
+        grid = QGridLayout()
+
+        self.layout.addLayout(grid)
+        self.layout.addWidget(self.accept_button)
+        self.layout.addWidget(self.reject_button)
+        self.setLayout(self.layout)
+
+        # 시그널 추가
+        self.accept_button.clicked.connect(self.fending_value)
+        self.reject_button.clicked.connect(self.reject)
+        self.buttons = []
+
+        for i in range(9):
+            for j in range(5):
+                self.button = QPushButton(str(i*5+j+1))
+                grid.addWidget(self.button, i, j)
+                self.button.setCheckable(True)
+                self.buttons.append(self.button)
+
+    def fending_value(self):
+        button_index = []
+        for button in self.buttons:
+            if button.isChecked():
+                button_index.append(button.text())
+        if len(button_index) < 6:
+            QMessageBox.critical(self, '경고', '6개 이상의 숫자를 선택해 주세요')
+            return
+        self.accept()
+        self.main_window.appearance_nums = button_index
+
 
