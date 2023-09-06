@@ -173,6 +173,7 @@ class pick_Num_Solution(QDialog):
         self.setWindowTitle('데이터 분석 및 뽑기')
         self.layout = QVBoxLayout()
 
+        self.help_btn = QPushButton('도움말')
         self.checkbox1 = QCheckBox(': 출현 빈도 낮은 순서로 추출 여부')
         self.checkbox2 = QCheckBox(': 보너스 번호 출현 횟수 포함 여부')
         label1 = QLabel('<b>번호 개수 : </b>')
@@ -187,12 +188,13 @@ class pick_Num_Solution(QDialog):
         hbox = QHBoxLayout()
 
         self.layout.addLayout(grid)
-        grid.addWidget(self.checkbox1, 0, 0)
-        grid.addWidget(self.checkbox2, 0, 1)
-        grid.addWidget(label1, 1, 0)
-        grid.addWidget(self.lineedit1, 1, 1)
-        grid.addWidget(label2, 2, 0)
-        grid.addWidget(self.lineedit2, 2, 1)
+        grid.addWidget(self.help_btn, 0, 0)
+        grid.addWidget(self.checkbox1, 1, 0)
+        grid.addWidget(self.checkbox2, 1, 1)
+        grid.addWidget(label1, 2, 0)
+        grid.addWidget(self.lineedit1, 2, 1)
+        grid.addWidget(label2, 3, 0)
+        grid.addWidget(self.lineedit2, 3, 1)
         self.layout.addWidget(self.data_upload_btn)
         self.layout.addLayout(hbox)
         hbox.addWidget(self.accept_button)
@@ -200,6 +202,7 @@ class pick_Num_Solution(QDialog):
         self.setLayout(self.layout)
 
         # 시그널 추가
+        self.help_btn.clicked.connect(self.help_info_show)
         self.data_upload_btn.clicked.connect(self.data_file_upload)
         self.accept_button.clicked.connect(self.fending_data)
         self.reject_button.clicked.connect(self.reject)
@@ -228,7 +231,23 @@ class pick_Num_Solution(QDialog):
                 order = self.checkbox1.isChecked()
                 is_bonus = self.checkbox2.isChecked()
                 num_list = mainfunc.get_prize_solution(self.file_path, nums, order, is_bonus)
-                self.accept()
                 show_dialog = lotto_Result(times, num_list)
                 show_dialog.exec()
+
+
+    def help_info_show(self):
+        QMessageBox.information(self, '도움말', "1. 메인 화면의 지난 회차 당첨 데이터를 추출합니다."
+                                             "\n\n2. 추출한 데이터 파일을 '데이터 업로드' 버튼을 클릭하여 업로드 합니다."
+                                             "\n\n3. 체크 박스를 설정 합니다."
+                                             "\n - 출현 빈도 낮은 순서로 추출 여부 : "
+                                             "데이터 내 출현 빈도가 가장 낮은 순서 부터 시작,"
+                                             " 번호 개수 값 만큼의 번호를 추출하여 무작위로 번호를 뽑습니다."
+                                             "\n - 보너스 번호 출현 횟수 포함 여부 : "
+                                             "보너스 번호로 출현했던 케이스도 포함하여 데이터를 분석합니다."
+                                             "\n\n4. 번호 개수 및 뽑기 횟수를 지정해 줍니다.(필수)"
+                                             "\n - 번호 개수 : 추출할 번호 개수를 입력 합니다. "
+                                             "예)체크 박스를 모두 체크하지 않는 상태로 번호 개수 10개 입력 후 뽑을 시"
+                                             "가장 많이 출현했던 10개의 숫자 중 무작위로 6개를 뽑음"
+                                             "\n - 뽑기 횟수 : 뽑을 횟수를 지정 합니다."
+                                             "\n\n5. 뽑기 버튼 클릭")
 
