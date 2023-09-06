@@ -16,14 +16,15 @@ class MainWindow(QMainWindow):
 
         # 위젯 추가
         layout2 = QGridLayout()
-        self.draw_one_time_btn = QPushButton('1회 뽑기')
-        self.draw_five_time_btn = QPushButton('5회 뽑기')
-        self.want_num = QPushButton('원하는 숫자만 뽑기')
+        self.draw_one_time_btn = QPushButton('1회 랜덤 뽑기')
+        self.draw_five_time_btn = QPushButton('5회 랜덤 뽑기')
+        self.want_num = QPushButton('원하는 숫자만 선택')
         self.label1 = QLabel('<b>횟수 입력 : </b>')
         self.lineedit1 = QLineEdit()
-        self.draw_as_want_btn = QPushButton('원하는 만큼 뽑기')
+        self.draw_as_want_btn = QPushButton('회 랜덤 뽑기')
         self.label2 = QLabel('<b>회차 입력 : </b>')
         self.lineedit2 = QLineEdit()
+        self.pick_num_solution_btn = QPushButton('데이터 기반 뽑기')
         self.is_prize_btn = QPushButton('당첨 정보 확인')
         self.before_prize_btn = QPushButton('지난 회차 당첨 데이터 추출')
         self.close_button = QPushButton('종료')
@@ -39,6 +40,7 @@ class MainWindow(QMainWindow):
         layout2.addWidget(self.label2, 2, 0)
         layout2.addWidget(self.lineedit2, 2, 1)
         layout2.addWidget(self.is_prize_btn, 2, 2)
+        layout.addWidget(self.pick_num_solution_btn)
         layout.addWidget(self.before_prize_btn)
         layout.addWidget(self.close_button)
 
@@ -48,6 +50,7 @@ class MainWindow(QMainWindow):
         self.want_num.clicked.connect(self.con_only_want_draw)
         self.draw_as_want_btn.clicked.connect(lambda: self.draw_lotto((self.lineedit1.text())))
         self.is_prize_btn.clicked.connect(lambda: self.con_prize_page((self.lineedit2.text())))
+        self.pick_num_solution_btn.clicked.connect(self.con_pick_num_solution)
         self.before_prize_btn.clicked.connect(self.con_download_lotto_prize_value)
         self.close_button.clicked.connect(self.close_app)
 
@@ -60,6 +63,10 @@ class MainWindow(QMainWindow):
         if num:
             result_dialog = lotto_Result(int(num), self.appearance_nums)
             result_dialog.exec()
+
+    def con_pick_num_solution(self):
+        solution_dialog = pick_Num_Solution(self)
+        solution_dialog.exec()
 
     def con_prize_page(self, index):
         mainfunc.web_view(index)
