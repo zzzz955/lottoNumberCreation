@@ -4,6 +4,7 @@ import crawling
 import to_json
 import to_excel_csv
 import webbrowser
+import lotto_prize_solution
 
 
 def web_view(index):
@@ -40,4 +41,9 @@ def open_file(file_path):
                                      QMessageBox.Ok | QMessageBox.No, QMessageBox.Ok)
     if result == QMessageBox.Ok:
         os.startfile(file_path)
+
+
+def get_prize_solution(file_path, nums, order, is_bonus):
+    num_list = lotto_prize_solution.prize_solution(file_path, nums, order, is_bonus)
+    return num_list
 
