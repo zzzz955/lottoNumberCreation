@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QMessageBox
 import os
 import crawling
-import to_json
+import to_json_text
 import to_excel_csv
 import webbrowser
 import lotto_prize_solution
@@ -17,7 +17,7 @@ def web_view(index):
 
 def fending_json(file_path, first_num, last_num, cool_time):
     data = crawling.find_prize_number(first_num, last_num, cool_time)
-    to_json.download_json(file_path, data)
+    to_json_text.download_json(file_path, data)
     open_file(file_path)
 
 
@@ -46,4 +46,15 @@ def open_file(file_path):
 def get_prize_solution(file_path, nums, order, is_bonus):
     num_list = lotto_prize_solution.prize_solution(file_path, nums, order, is_bonus)
     return num_list
+
+
+def result_download(file_path, data, form):
+    if form == 'excel':
+        to_excel_csv.download_result(file_path, data)
+        open_file(file_path)
+    elif form == 'text':
+        to_json_text.download_text(file_path, data)
+        open_file(file_path)
+    else:
+        return
 
