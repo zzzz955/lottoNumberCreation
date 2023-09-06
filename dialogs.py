@@ -49,12 +49,9 @@ class lotto_Result(QDialog):
                 self.result_nums.append(result[j])
 
     def result_download_text_file(self):
-        try:
-            file_path, _ = QFileDialog.getSaveFileName(self, '저장 경로 지정', '', '*.txt')
-            if file_path and self.result_nums:
-                mainfunc.result_download(file_path, self.result_nums, 'text')
-        except Exception as e:
-            print(e)
+        file_path, _ = QFileDialog.getSaveFileName(self, '저장 경로 지정', '', '*.txt')
+        if file_path and self.result_nums:
+            mainfunc.result_download(file_path, self.result_nums, 'text')
 
     def result_download_excel_file(self):
         file_path, _ = QFileDialog.getSaveFileName(self, '저장 경로 지정', '', '*.xlsx')
