@@ -12,12 +12,23 @@ class lotto_Result(QDialog):
         super().__init__()
         self.setWindowTitle('로또 번호 추첨')
         self.layout = QVBoxLayout()
+        hbox = QHBoxLayout()
+        self.layout.addLayout(hbox)
+        self.result_download_text_file_btn = QPushButton('텍스트 파일 다운로드')
+        self.result_download_excel_file_btn = QPushButton('엑셀 파일 다운로드')
         self.close_button = QPushButton('종료')
+
+        self.layout.addLayout(hbox)
+        hbox.addWidget(self.result_download_excel_file_btn)
+        hbox.addWidget(self.result_download_text_file_btn)
         self.layout.addWidget(self.close_button)
         self.setLayout(self.layout)
 
         # 시그널 추가
+        self.result_download_text_file_btn.clicked.connect(self.result_download_text_file)
+        self.result_download_excel_file_btn.clicked.connect(self.result_download_excel_file)
         self.close_button.clicked.connect(self.close)
+        self.result_nums = []
         self.show_result(times, appearance_nums)
 
     def show_result(self, times, appearance_nums):
@@ -35,6 +46,20 @@ class lotto_Result(QDialog):
                 label.setAlignment(Qt.AlignCenter)
                 label.setFixedSize(50, 50)
                 result_layout.addWidget(label, i, j+1)
+                self.result_nums.append(result[j])
+
+    def result_download_text_file(self):
+        try:
+            file_path, _ = QFileDialog.getSaveFileName(self, '저장 경로 지정', '', '*.txt')
+            if file_path and self.result_nums:
+                mainfunc.result_download(file_path, self.result_nums, 'text')
+        except Exception as e:
+            print(e)
+
+    def result_download_excel_file(self):
+        file_path, _ = QFileDialog.getSaveFileName(self, '저장 경로 지정', '', '*.xlsx')
+        if file_path and self.result_nums:
+            mainfunc.result_download(file_path, self.result_nums, 'excel')
 
 
 class download_Lotto_Prize_Value(QDialog):
