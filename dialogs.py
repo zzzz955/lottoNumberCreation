@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QDialog, QVBoxLayout, QPushButton, QLineEdit, QHBoxLayout, \
-    QGridLayout, QLabel, QMessageBox, QFileDialog
+    QGridLayout, QLabel, QMessageBox, QFileDialog, QCheckBox
 from PyQt5.QtCore import Qt
 from PyQt5.Qt import QIntValidator, QDoubleValidator
 import random_func as ran
@@ -35,7 +35,6 @@ class lotto_Result(QDialog):
                 label.setAlignment(Qt.AlignCenter)
                 label.setFixedSize(50, 50)
                 result_layout.addWidget(label, i, j+1)
-
 
 
 class download_Lotto_Prize_Value(QDialog):
@@ -167,4 +166,69 @@ class only_Want_Draw(QDialog):
         self.accept()
         self.main_window.appearance_nums = button_index
 
+
+class pick_Num_Solution(QDialog):
+    def __init__(self, main_window):
+        super().__init__()
+        self.setWindowTitle('데이터 분석 및 뽑기')
+        self.layout = QVBoxLayout()
+
+        self.checkbox1 = QCheckBox(': 출현 빈도 낮은 순서로 추출 여부')
+        self.checkbox2 = QCheckBox(': 보너스 번호 출현 횟수 포함 여부')
+        label1 = QLabel('<b>번호 개수 : </b>')
+        self.lineedit1 = QLineEdit()
+        label2 = QLabel('<b>뽑기 횟수 : </b>')
+        self.lineedit2 = QLineEdit()
+        self.data_upload_btn = QPushButton('데이터 업로드')
+        self.accept_button = QPushButton('뽑기')
+        self.reject_button = QPushButton('종료')
+        self.main_window = main_window
+        grid = QGridLayout()
+        hbox = QHBoxLayout()
+
+        self.layout.addLayout(grid)
+        grid.addWidget(self.checkbox1, 0, 0)
+        grid.addWidget(self.checkbox2, 0, 1)
+        grid.addWidget(label1, 1, 0)
+        grid.addWidget(self.lineedit1, 1, 1)
+        grid.addWidget(label2, 2, 0)
+        grid.addWidget(self.lineedit2, 2, 1)
+        self.layout.addWidget(self.data_upload_btn)
+        self.layout.addLayout(hbox)
+        hbox.addWidget(self.accept_button)
+        hbox.addWidget(self.reject_button)
+        self.setLayout(self.layout)
+
+        # 시그널 추가
+        self.data_upload_btn.clicked.connect(self.data_file_upload)
+        self.accept_button.clicked.connect(self.fending_data)
+        self.reject_button.clicked.connect(self.reject)
+
+        self.lineedit1.setValidator(QIntValidator())
+        self.lineedit2.setValidator(QIntValidator())
+
+        self.file_path = None
+
+    def data_file_upload(self):
+        file_path, _ = QFileDialog.getOpenFileName(self, '데이터 파일 업로드', '', '*.xlsx')
+        if file_path:
+            self.file_path = file_path
+
+    def fending_data(self):
+        if self.lineedit1.text() and self.lineedit2.text():
+            nums = int(self.lineedit1.text())
+            times = int(self.lineedit1.text())-1
+            if not self.file_path:
+                QMessageBox.warning(self, '경고', '데이터를 업로드 해 주세요.')
+            elif nums < 6:
+                QMessageBox.warning(self, '경고', '뽑을 번호 갯수는 최소 6개 이상 입니다.')
+            elif times <= 0:
+                QMessageBox.warning(self, '경고', '뽑기 횟수는 최소 1번 이상 입니다.')
+            else:
+                order = self.checkbox1.isChecked()
+                is_bonus = self.checkbox2.isChecked()
+                num_list = mainfunc.get_prize_solution(self.file_path, nums, order, is_bonus)
+                self.accept()
+                show_dialog = lotto_Result(times, num_list)
+                show_dialog.exec()
 
