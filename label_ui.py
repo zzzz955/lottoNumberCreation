@@ -13,9 +13,7 @@ class CircleLabel(QLabel):
     def paintEvent(self, event):
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
-
         circle_rect = self.rect().translated(0, 0)
-
         if 1 <= int(self.text) < 10:
             brush = QBrush(QColor('#F2B720'))
         elif 11 <= int(self.text) < 20:
