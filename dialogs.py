@@ -24,7 +24,6 @@ class lotto_Result(QDialog):
         self.layout.addWidget(self.close_button)
         self.setLayout(self.layout)
 
-        # 시그널 추가
         self.result_download_text_file_btn.clicked.connect(self.result_download_text_file)
         self.result_download_excel_file_btn.clicked.connect(self.result_download_excel_file)
         self.close_button.clicked.connect(self.close)
