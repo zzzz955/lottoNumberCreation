@@ -44,7 +44,7 @@ class lotto_Result(QDialog):
             for j in range(6):
                 label = CircleLabel(f'{result[j]}')
                 label.setAlignment(Qt.AlignCenter)
-                label.setFixedSize(50, 50)
+                label.setFixedSize(30, 30)
                 result_layout.addWidget(label, i, j+1)
                 self.result_nums.append(result[j])
 

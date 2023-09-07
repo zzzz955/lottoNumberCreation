@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QLabel
-from PyQt5.QtGui import QPainter, QBrush, QColor, QFont
+from PyQt5.QtGui import QPainter, QBrush, QColor, QFont, QPen
 from PyQt5.QtCore import Qt
 
 
@@ -26,12 +26,23 @@ class CircleLabel(QLabel):
             brush = QBrush(QColor('#9195A4'))
         else:
             brush = QBrush(QColor('#13BE4B'))
-        painter.setBrush(brush)
-        painter.drawEllipse(circle_rect)
 
-        # 텍스트 그리기
-        font = QFont("Arial", 15)
+        painter.setBrush(brush)
+        painter.setPen(Qt.NoPen)
+        painter.drawEllipse(circle_rect)
+        self.inner_circle(painter)
+
+        font = QFont("Arial", 12)
         painter.setFont(font)
-        painter.setPen(Qt.white)  # 텍스트 색상
+        painter.setPen(Qt.black)
         painter.drawText(self.rect(), Qt.AlignCenter, self.text)
+
+    def inner_circle(self, painter):
+        painter.setRenderHint(QPainter.Antialiasing)
+
+        circle_rect = self.rect().translated(0, 0).adjusted(3, 3, -3, -3)
+        brush = QBrush(QColor('#FFFFFF'))
+        painter.setBrush(brush)
+        painter.setPen(Qt.NoPen)
+        painter.drawEllipse(circle_rect)
 

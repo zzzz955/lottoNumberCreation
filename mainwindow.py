@@ -54,6 +54,8 @@ class MainWindow(QMainWindow):
         self.before_prize_btn.clicked.connect(self.con_download_lotto_prize_value)
         self.close_button.clicked.connect(self.close_app)
 
+        self.label1.setAlignment(Qt.AlignCenter)
+        self.label2.setAlignment(Qt.AlignCenter)
         self.lineedit1.setValidator(QIntValidator())
         self.lineedit2.setValidator(QIntValidator())
 
