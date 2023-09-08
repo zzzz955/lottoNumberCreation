@@ -3,6 +3,7 @@ import openpyxl
 
 
 def prize_solution(file_path, nums, order, is_bonus):
+    # 데이터 분석 및 반환
     num_list = []
     df = pd.read_excel(file_path, na_values=False, engine='openpyxl')
     if is_bonus:

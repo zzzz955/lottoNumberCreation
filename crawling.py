@@ -5,6 +5,7 @@ import time
 
 
 def find_prize_number(first_num, last_num, cool_time):
+    # 리스트 초기화
     index = []
     winning_number1 = []
     winning_number2 = []
@@ -14,6 +15,7 @@ def find_prize_number(first_num, last_num, cool_time):
     winning_number6 = []
     bonus_number = []
     try:
+        # 웹사이트 크롤링 및 데이터 리스트 전달
         for i in range(first_num, last_num + 1):
             url = ('https://search.naver.com/search.naver?where=nexearch&sm=tab_etc&qvt=0&query='
                    + str(i) +
@@ -34,6 +36,7 @@ def find_prize_number(first_num, last_num, cool_time):
             bonus_number.append(int(elements_with_class[1].text.strip()))
             time.sleep(cool_time)
 
+        # 데이터 딕셔너리 생성 및 반환
         data = {
             '회차 정보': index,
             '당첨 번호1': winning_number1,

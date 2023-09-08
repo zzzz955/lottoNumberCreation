@@ -11,6 +11,8 @@ class lotto_Result(QDialog):
     def __init__(self, times, appearance_nums):
         super().__init__()
         self.setWindowTitle('로또 번호 추첨')
+
+        # 위젯 생성
         self.layout = QVBoxLayout()
         hbox = QHBoxLayout()
         self.layout.addLayout(hbox)
@@ -18,15 +20,19 @@ class lotto_Result(QDialog):
         self.result_download_excel_file_btn = QPushButton('엑셀 파일 다운로드')
         self.close_button = QPushButton('종료')
 
+        # 레이아웃 추가
         self.layout.addLayout(hbox)
         hbox.addWidget(self.result_download_excel_file_btn)
         hbox.addWidget(self.result_download_text_file_btn)
         self.layout.addWidget(self.close_button)
         self.setLayout(self.layout)
 
+        # 시그널 추가
         self.result_download_text_file_btn.clicked.connect(self.result_download_text_file)
         self.result_download_excel_file_btn.clicked.connect(self.result_download_excel_file)
         self.close_button.clicked.connect(self.close)
+
+        # 인스턴스 변수 추가 및 함수 호출
         self.result_nums = []
         self.show_result(times, appearance_nums)
 
@@ -63,6 +69,7 @@ class download_Lotto_Prize_Value(QDialog):
         super().__init__()
         self.setWindowTitle('회차별 당첨 번호 정보')
 
+        # 위젯 생성
         self.layout = QVBoxLayout()
         layout1 = QHBoxLayout()
         layout2 = QHBoxLayout()
@@ -79,6 +86,7 @@ class download_Lotto_Prize_Value(QDialog):
         self.download_csv_btn = QPushButton('csv 파일 다운로드')
         self.close_button = QPushButton('종료')
 
+        # 레이아웃 추가
         self.layout.addLayout(layout1)
         layout1.addWidget(label1)
         layout1.addWidget(self.lineedit1)
@@ -104,10 +112,11 @@ class download_Lotto_Prize_Value(QDialog):
         self.download_csv_btn.clicked.connect(lambda: self.con_download_files('csv'))
         self.close_button.clicked.connect(self.close_dialog)
 
+        # lineedit 입력값 제한
         self.lineedit1.setValidator(QIntValidator())
         self.lineedit2.setValidator(QIntValidator())
         double_validator = QDoubleValidator()
-        double_validator.setNotation(QDoubleValidator.StandardNotation)  # 표준 표기법 사용
+        double_validator.setNotation(QDoubleValidator.StandardNotation)
         double_validator.setDecimals(1)
         self.lineedit3.setValidator(double_validator)
 
@@ -153,12 +162,15 @@ class only_Want_Draw(QDialog):
     def __init__(self, main_window):
         super().__init__()
         self.setWindowTitle('추첨 번호 선택')
+        self.main_window = main_window
+
+        # 위젯 생성
         self.layout = QVBoxLayout()
         self.accept_button = QPushButton('적용')
         self.reject_button = QPushButton('종료')
-        self.main_window = main_window
         grid = QGridLayout()
 
+        # 레이아웃 추가
         self.layout.addLayout(grid)
         self.layout.addWidget(self.accept_button)
         self.layout.addWidget(self.reject_button)
@@ -192,8 +204,9 @@ class pick_Num_Solution(QDialog):
     def __init__(self, main_window):
         super().__init__()
         self.setWindowTitle('데이터 분석 및 뽑기')
-        self.layout = QVBoxLayout()
 
+        # 위젯 생성
+        self.layout = QVBoxLayout()
         self.help_btn = QPushButton('도움말')
         self.checkbox1 = QCheckBox(': 출현 빈도 낮은 순서로 추출 여부')
         self.checkbox2 = QCheckBox(': 보너스 번호 출현 횟수 포함 여부')
@@ -208,6 +221,7 @@ class pick_Num_Solution(QDialog):
         grid = QGridLayout()
         hbox = QHBoxLayout()
 
+        # 레이아웃 추가
         self.layout.addLayout(grid)
         grid.addWidget(self.help_btn, 0, 0)
         grid.addWidget(self.checkbox1, 1, 0)
@@ -228,9 +242,11 @@ class pick_Num_Solution(QDialog):
         self.accept_button.clicked.connect(self.fending_data)
         self.reject_button.clicked.connect(self.reject)
 
+        # lineedit 입력 값 제한
         self.lineedit1.setValidator(QIntValidator())
         self.lineedit2.setValidator(QIntValidator())
 
+        # 변수 초기화
         self.file_path = None
 
     def data_file_upload(self):

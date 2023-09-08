@@ -11,6 +11,7 @@ class CircleLabel(QLabel):
         self.setStyleSheet('font-weight: bold;')
 
     def paintEvent(self, event):
+        # QLabel 외부 원 그리기
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
         circle_rect = self.rect().translated(0, 0)
@@ -36,6 +37,7 @@ class CircleLabel(QLabel):
         painter.drawText(self.rect(), Qt.AlignCenter, self.text)
 
     def inner_circle(self, painter):
+        # QLabel 내부 원 그리기
         painter.setRenderHint(QPainter.Antialiasing)
 
         circle_rect = self.rect().translated(0, 0).adjusted(3, 3, -3, -3)
