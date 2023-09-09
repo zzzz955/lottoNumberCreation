@@ -257,7 +257,7 @@ class pick_Num_Solution(QDialog):
     def fending_data(self):
         if self.lineedit1.text() and self.lineedit2.text():
             nums = int(self.lineedit1.text())
-            times = int(self.lineedit2.text())-1
+            times = int(self.lineedit2.text())
             if not self.file_path:
                 QMessageBox.warning(self, '경고', '데이터를 업로드 해 주세요.')
             elif nums < 6:
