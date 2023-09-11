@@ -12,10 +12,9 @@ def download_text(filepath, data):
     # 추첨 결과 텍스트 파일 변환 및 생성
     data_lists = []
     string = ''
-    print(data)
-    for index, i in enumerate(range(0, len(data), 7)):
-        data.insert(i, f'추첨 번호 리스트{index+1}')
-        data_lists.append(data[i:i+7])
+    for index, i in enumerate(range(0, len(data), 6)):
+        sublist = [f'추첨 번호 리스트{index+1}'] + data[i:i+6]
+        data_lists.append(sublist)
     for i in range(len(data_lists)):
         string += str(data_lists[i]) + '\n'
     with open(filepath, 'w', encoding='euc-kr') as text_file:
