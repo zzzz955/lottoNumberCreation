@@ -6,7 +6,7 @@
 4. 회차 데이터 분석 및 로또 번호 추천
 
 # mainwindow.py
-앱 실행 시 나타나는 메인 화면
+앱 실행 시 나타나는 메인 UI
 
 1. 랜덤 뽑기
    ※ 45개 숫자 중 무작위로 6개의 숫자 추첨
@@ -36,7 +36,7 @@
 json 및 텍스트 파일 다운로드 함수 모듈
 
 # crawling.py
-웹 페이지 크롤링 함수 모듈
+네이버 웹 페이지 크롤링 함수 모듈
 
 # lotto_prize_solution.py
 업로드 데이터 가공 함수 모듈
@@ -45,7 +45,7 @@ json 및 텍스트 파일 다운로드 함수 모듈
 로또 추첨 관련 QLabel ui 적용을 위한 모듈
 
 # custom.xml
-qt-materiar GUI 서식
+qt-materiar GUI 서식, 실행 파일과 동일한 경로에 위치 필요
 
 # requiremodules.txt
 설치가 필요한 모듈 모음
